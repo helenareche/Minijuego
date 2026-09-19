@@ -7,13 +7,14 @@ public class Player : MonoBehaviour
     public float thrustForce = 10f; //fuerza de empuje
     public float rotationSpeed = 120f; //velocidad de rotación
     
-    private Rigidbody _rigid;
+    public GameObject gun, bulletPrefab; //objetos de la Nave, pistola y balas
+    private Rigidbody _rigid; //Nave
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //Para la configuracion inicial del objeto
-        _rigid = GetComponent<Rigidbody>(); //inicializamos el objeto
+        _rigid = GetComponent<Rigidbody>(); //inicializamos el objeto nave
     }
 
     // Update is called once per frame
@@ -26,5 +27,12 @@ public class Player : MonoBehaviour
 
        _rigid.AddForce(thrustDirection * thrust * thrustForce);
        transform.Rotate(Vector3.forward, -rotation * rotationSpeed);
+
+       if(Input.GetKeyDown(KeyCode.Space))//preguntamos si estamos pulsado el boton de disparar
+        {
+            GameObject bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity); //instanciar bala
+            Bullet balaScript = bullet.GetComponent<Bullet>(); //para que las balas tenga la direccion de la Nave
+            balaScript.targetVector = transform.right;
+        } 
     }
 }
