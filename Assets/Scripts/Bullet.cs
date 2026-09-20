@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
 {
@@ -22,8 +23,25 @@ public class Bullet : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
+            IncreaseScore(); //cada vez que se destruya un meteorito
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
+    }
+
+    private void IncreaseScore()
+    {
+        //incrementar el score (variable de player porque es un elemento que no "muere")
+        Player.SCORE++;
+        Debug.Log(Player.SCORE);
+
+        UpdateScoreText();
+
+    }
+
+    private void UpdateScoreText()
+    {
+        GameObject go = GameObject.FindGameObjectWithTag("UI");
+        go.GetComponent<Text>().text = "Puntos: " + Player.SCORE;
     }
 }

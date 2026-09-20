@@ -1,4 +1,4 @@
-using Unity.ProjectAuditor.Editor.Core;
+//using Unity.ProjectAuditor.Editor.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     
     public GameObject gun, bulletPrefab; //objetos de la Nave, pistola y balas
     private Rigidbody _rigid; //Nave
+
+    public static int SCORE = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
+            SCORE = 0; 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         else
