@@ -13,12 +13,16 @@ public class Player : MonoBehaviour
     private Rigidbody _rigid; //Nave
 
     public static int SCORE = 0;
+    public static float xBorderLimit, yBorderLimit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //Para la configuracion inicial del objeto
         _rigid = GetComponent<Rigidbody>(); //inicializamos el objeto nave
+
+        yBorderLimit = Camera.main.orthographicSize + 1;
+        xBorderLimit = (Camera.main.orthographicSize + 1) * Screen.width/Screen.height ;
     }
 
     // Update is called once per frame
@@ -31,6 +35,26 @@ public class Player : MonoBehaviour
 
        _rigid.AddForce(thrustDirection * thrust * thrustForce);
        transform.Rotate(Vector3.forward, -rotation * rotationSpeed);
+
+        //Universo infinito
+        var newPos = transform.position;
+        if(newPos.x > xBorderLimit)
+        {
+            newPos.x = -xBorderLimit + 1;
+        }
+        else if(newPos.x < -xBorderLimit)
+        {
+            newPos.x = xBorderLimit - 1;
+        }
+        else if(newPos.y > yBorderLimit)
+        {
+            newPos.y = -yBorderLimit + 1;
+        }
+        else if(newPos.y < -yBorderLimit)
+        {
+            newPos.y = yBorderLimit - 1;
+        }
+        transform.position = newPos;
 
        if(Input.GetKeyDown(KeyCode.Space))//preguntamos si estamos pulsado el boton de disparar
         {
